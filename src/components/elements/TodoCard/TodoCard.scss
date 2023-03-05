@@ -17,10 +17,12 @@
     margin-left: 1.2rem;
     position: relative;
 
-    &:focus {
+    &:focus,
+    &input {
       outline: none;
       border: none;
       background: none;
+      margin: 0;
     }
 
     &::after {
