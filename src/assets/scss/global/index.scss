@@ -1,0 +1,42 @@
+@import 'reset';
+@import 'normalize';
+@import 'transitions';
+@import '../vars/index';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: $color-text;
+  background-color: $color-bg;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $color-bg-pink;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: $nunito;
+  font-weight: 800;
+  font-size: $ft-s-small;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unbutton {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.unbutton:focus {
+  outline: none;
+}

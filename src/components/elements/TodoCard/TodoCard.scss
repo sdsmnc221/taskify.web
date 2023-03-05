@@ -1,0 +1,38 @@
+.todo-card {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  padding: 1rem;
+  border-radius: rem(32px);
+  transition: all ease 0.2s;
+
+  &:not(:last-child) {
+    margin-bottom: 0.32rem;
+  }
+
+  &__text {
+    flex: 1;
+    margin-left: 1.2rem;
+    position: relative;
+
+    &:focus {
+      outline: none;
+      border: none;
+      background: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -1.2rem;
+      width: 0.64rem;
+      height: 0.64rem;
+      display: block;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
