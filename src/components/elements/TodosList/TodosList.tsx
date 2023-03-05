@@ -67,7 +67,7 @@ const TodosList: React.FC<Props> = ({
               {completedTodos.map((task, index) => (
                 <TodoCard
                   todo={task}
-                  todos={todos}
+                  todos={completedTodos}
                   setTodos={setCompletedTodos}
                   otherTodos={todos}
                   setOtherTodos={setTodos}

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Todo } from '../../model';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import { MdDone } from 'react-icons/md';
+import { IoSwapHorizontalOutline } from 'react-icons/io5';
 import { Draggable } from 'react-beautiful-dnd';
 
 import './TodoCard.scss';
@@ -28,15 +28,21 @@ const TodoCard: React.FC<Props> = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleDone = (id: number) => {
+  const handleSwap = (id: number) => {
+    console.log(todos.filter((todo) => todo.id !== id));
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      )
+      // todos.map((todo) =>
+      //   todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+      // )
+      todos.filter((todo) => todo.id !== id)
     );
 
     const todo: Todo | undefined = todos.find((todo) => todo.id === id);
-    if (todo) setOtherTodos([...otherTodos, todo]);
+    if (todo)
+      setOtherTodos([
+        ...otherTodos,
+        { ...todo, id: Date.now(), isDone: !todo.isDone }
+      ]);
   };
 
   const handleDelete = (id: number) => {
@@ -92,8 +98,8 @@ const TodoCard: React.FC<Props> = ({
             <span className="icon" onClick={() => handleDelete(todo.id)}>
               <AiFillDelete />
             </span>
-            <span className="icon" onClick={() => handleDone(todo.id)}>
-              <MdDone />
+            <span className="icon" onClick={() => handleSwap(todo.id)}>
+              <IoSwapHorizontalOutline />
             </span>
           </div>
         </form>
