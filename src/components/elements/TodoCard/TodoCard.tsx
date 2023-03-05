@@ -29,7 +29,6 @@ const TodoCard: React.FC<Props> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSwap = (id: number) => {
-    console.log(todos.filter((todo) => todo.id !== id));
     setTodos(
       // todos.map((todo) =>
       //   todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
