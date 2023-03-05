@@ -87,14 +87,16 @@ const TodoCard: React.FC<Props> = ({
           )}
 
           <div>
-            <span
-              className="icon"
-              onClick={() => {
-                if (!edit && !todo.isDone) setEdit(!edit);
-              }}
-            >
-              <AiFillEdit />
-            </span>
+            {!todo.isDone && (
+              <span
+                className="icon"
+                onClick={() => {
+                  if (!edit) setEdit(!edit);
+                }}
+              >
+                <AiFillEdit />
+              </span>
+            )}
             <span className="icon" onClick={() => handleDelete(todo.id)}>
               <AiFillDelete />
             </span>
