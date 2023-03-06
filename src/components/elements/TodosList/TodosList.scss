@@ -102,7 +102,7 @@
         &::before {
           background-color: $color-pastel-blue;
           background: linear-gradient(
-            180deg,
+            to top,
             rgba(255, 255, 255, 0) 0%,
             $color-pastel-blue 100%
           );
