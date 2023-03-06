@@ -13,7 +13,35 @@ export default defineConfig({
       },
     },
     ),
-    VitePWA({ registerType: 'autoUpdate' })
+    VitePWA({  
+      registerType: 'prompt',  
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],  
+      manifest: {  
+        name: '[AnTR] Taskify',  
+        short_name: '[AnTR] Taskify',  
+        description: 'To keep track of my tasks',  
+        theme_color: '#ffffff',  
+        start_url: '/',  
+        icons: [  
+  {  
+  src: 'pwa-192x192.png',  
+            sizes: '192x192',  
+            type: 'image/png',  
+          },  
+          {  
+  src: 'pwa-512x512.png',  
+            sizes: '512x512',  
+            type: 'image/png',  
+          },  
+          {  
+  src: 'pwa-512x512.png',  
+            sizes: '512x512',  
+            type: 'image/png',  
+            purpose: 'any maskable',  
+          },  
+        ],  
+      },  
+    })
   ],
   css: {
     preprocessorOptions: {
