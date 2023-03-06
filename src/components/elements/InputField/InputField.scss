@@ -3,6 +3,7 @@
   width: 100%;
   position: relative;
   align-items: center;
+  justify-content: center;
   padding: 0 1rem;
 
   &__box {
@@ -10,6 +11,7 @@
     background-color: transparentize($color-pastel-pink, 0.72);
     border: none;
     padding: 1rem;
+    padding-left: 2rem;
     height: 6.4vh;
     border-radius: rem(32px);
     color: $color-text;
@@ -19,6 +21,10 @@
     &:focus {
       box-shadow: 0 0 10px 1000px rgba(0, 0, 0, 0.2);
       outline-color: $color-pastel-pink;
+    }
+
+    @media #{$mq-mobile} {
+      width: 96%;
     }
   }
 
