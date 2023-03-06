@@ -10,7 +10,8 @@ import {
   DocumentData,
   Firestore,
   getDocs,
-  doc
+  doc,
+  deleteDoc
 } from '@firebase/firestore';
 import { firestore } from './utils/firebase';
 
@@ -95,12 +96,26 @@ const App: React.FC = () => {
 
     if (destination.droppableId === 'todosList') {
       active.splice(destination.index, 0, add);
+      console.log('b');
     } else {
       completed.splice(destination.index, 0, add);
+      console.log('a');
     }
 
+    active = active.map((todo) => ({ ...todo, isDone: false }));
+    completed = completed.map((todo) => ({ ...todo, isDone: true }));
     setTodos(active);
-    setCompletedTodos(completed.map((todo) => ({ ...todo, isDone: true })));
+    setCompletedTodos(completed);
+
+    const allTodos = [...active, ...completed];
+    allTodos.forEach(async (task) => {
+      // await deleteDoc(doc(firestore, 'tasks', task.id.toString()));
+      setDoc(
+        doc(firestore, 'tasks', task.id.toString()),
+        { isDone: task.isDone, id: task.id, todo: task.todo },
+        { merge: true }
+      );
+    });
   };
 
   return (
