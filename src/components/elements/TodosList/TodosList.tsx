@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import { Todo } from '../../model';
 import TodoCard from '../TodoCard/TodoCard';
@@ -16,32 +16,40 @@ const TodosList: React.FC<Props> = ({
   completedTodos,
   setCompletedTodos
 }) => {
+  const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>): void => {
+    const target = e.target as HTMLDivElement;
+    target.style.setProperty('--translate-y', `${target.scrollTop}px`);
+  };
+
   return (
     <div className="container">
-      <div className="todos">
+      <div className="todos" onScroll={handleScroll}>
         <span className="todos__heading">Active tasks</span>
         <Droppable droppableId="todosList">
           {(provided, snapshot) => (
-            <div
-              className={`todos-list ${
-                snapshot.isDraggingOver ? 'drag-active' : ''
-              }`}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {todos.map((task, index) => (
-                <TodoCard
-                  todo={task}
-                  todos={todos}
-                  setTodos={setTodos}
-                  otherTodos={completedTodos}
-                  setOtherTodos={setCompletedTodos}
-                  index={index}
-                  key={task.id}
-                />
-              ))}
-              {provided.placeholder}
-            </div>
+            <Fragment>
+              <div
+                className={`todos-list ${
+                  snapshot.isDraggingOver ? 'drag-active' : ''
+                }`}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {todos.map((task, index) => (
+                  <TodoCard
+                    todo={task}
+                    todos={todos}
+                    setTodos={setTodos}
+                    otherTodos={completedTodos}
+                    setOtherTodos={setCompletedTodos}
+                    index={index}
+                    key={task.id}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+              <div className="overflow"></div>
+            </Fragment>
           )}
         </Droppable>
       </div>
@@ -55,28 +63,31 @@ const TodosList: React.FC<Props> = ({
         <span></span>
         <span></span>
       </div>
-      <div className="todos remove">
+      <div className="todos remove" onScroll={handleScroll}>
         <span className="todos__heading">Completed tasks</span>
         <Droppable droppableId="completedTodosList">
           {(provided) => (
-            <div
-              className={`todos-list snapshot.isDraggingOver ? 'drag-completed' : ''`}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {completedTodos.map((task, index) => (
-                <TodoCard
-                  todo={task}
-                  todos={completedTodos}
-                  setTodos={setCompletedTodos}
-                  otherTodos={todos}
-                  setOtherTodos={setTodos}
-                  index={index}
-                  key={task.id}
-                />
-              ))}
-              {provided.placeholder}
-            </div>
+            <Fragment>
+              <div
+                className={`todos-list snapshot.isDraggingOver ? 'drag-completed' : ''`}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {completedTodos.map((task, index) => (
+                  <TodoCard
+                    todo={task}
+                    todos={completedTodos}
+                    setTodos={setCompletedTodos}
+                    otherTodos={todos}
+                    setOtherTodos={setTodos}
+                    index={index}
+                    key={task.id}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+              <div className="overflow"></div>
+            </Fragment>
           )}
         </Droppable>
       </div>
