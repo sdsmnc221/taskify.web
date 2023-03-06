@@ -179,6 +179,12 @@
       &:last-child {
         margin-top: 1rem;
       }
+
+      &__heading {
+        &::after {
+          height: 10vh;
+        }
+      }
     }
 
     .spine {
