@@ -1,8 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Todo } from './components/model';
 import InputField from './components/elements/InputField/InputField';
 import TodosList from './components/elements/TodosList/TodosList';
+import {
+  setDoc,
+  collection,
+  CollectionReference,
+  DocumentData,
+  Firestore,
+  getDocs,
+  doc
+} from '@firebase/firestore';
+import { firestore } from './utils/firebase';
 
 import './App.scss';
 
@@ -11,12 +21,52 @@ const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
 
-  const handleAddTask = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchTasks = async (db: Firestore) => {
+      const tasksCollection: CollectionReference<DocumentData> = collection(
+        db,
+        'tasks'
+      );
+      const tasksSnapshot = await getDocs(tasksCollection);
+      const tasksList = tasksSnapshot.docs.map((doc) => doc.data());
+      return tasksList;
+    };
+
+    fetchTasks(firestore)
+      .then((tasks) => {
+        if (tasks.length > 0) {
+          setTodos(
+            tasks
+              .filter((task) => !task.isDone)
+              .map((task) => ({
+                id: task.id,
+                todo: task.todo,
+                isDone: task.isDone
+              }))
+          );
+          setCompletedTodos(
+            tasks
+              .filter((task) => task.isDone)
+              .map((task) => ({
+                id: task.id,
+                todo: task.todo,
+                isDone: task.isDone
+              }))
+          );
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (todo) {
-      setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
+      const newTodo = { id: Date.now(), todo, isDone: false };
+      setTodos([...todos, newTodo]);
       setTodo('');
+
+      await setDoc(doc(firestore, 'tasks', newTodo.id.toString()), newTodo);
     }
   };
 
