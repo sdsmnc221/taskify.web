@@ -59,7 +59,9 @@ const TodoCard: React.FC<Props> = ({
     // await deleteDoc(doc(firestore, 'tasks', id.toString()));
     setTodos(todos.filter((todo) => todo.id !== id));
 
-    const deletedTodo: Todo | undefined = todos.find((todo) => todo.id === id);
+    const deletedTodo: Todo | undefined = [...todos, ...otherTodos].find(
+      (todo) => todo.id === id
+    );
     if (deletedTodo) setTodosDeleted([...todosDeleted, deletedTodo]);
   };
 
