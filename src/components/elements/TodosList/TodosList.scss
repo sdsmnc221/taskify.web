@@ -9,7 +9,7 @@
     --translate-y: 0px;
 
     width: 48%;
-    height: 32vh;
+    height: 56vh;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -160,8 +160,8 @@
 
     span {
       display: block;
-      width: rem(48px);
-      height: rem(16px);
+      width: rem(64px);
+      height: rem(24px);
       background-color: $color-bg;
       border-radius: rem(32px);
     }
@@ -172,10 +172,12 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
+
     overflow: hidden;
 
     .todos {
       width: 90%;
+      height: 32vh;
 
       &:last-child {
         margin-top: 1rem;
@@ -188,6 +190,8 @@
 
       span {
         transform: rotate(90deg);
+        width: rem(48px);
+        height: rem(16px);
       }
     }
   }

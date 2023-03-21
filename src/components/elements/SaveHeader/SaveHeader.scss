@@ -1,0 +1,73 @@
+.save-header {
+  width: 48%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-end;
+
+  &__input {
+    width: 0;
+    opacity: 0;
+    background-color: transparentize($color-pastel-pink, 0.72);
+    border: none;
+    padding: 1rem;
+    height: 4.8vh;
+    border-radius: rem(32px);
+    color: $color-text;
+    box-shadow: 0 0.4rem $color-bg-pink;
+    cursor: pointer;
+    font-size: $ft-s-xxsmall;
+    transition: all 1s ease;
+    outline: none;
+
+    &.-opened {
+      width: 50%;
+      opacity: 1;
+    }
+  }
+
+  &__save {
+    border: none;
+    border-bottom: 6px solid $color-text;
+    border-top: 3px solid transparent;
+    border-radius: rem(32px);
+    padding: 1rem 2rem;
+    background-color: $color-bg-pink;
+    color: $color-text;
+    font-weight: 700;
+    position: relative;
+    left: 2vw;
+    display: block;
+    transition: all 0.4s ease;
+
+    &:hover {
+      background-color: $color-pastel-pink;
+      color: $color-bg-pink;
+      border-bottom-color: transparent;
+      border-top-color: $color-text;
+    }
+  }
+
+  @media #{$mq-mobile} {
+    &__save {
+      left: -2vw;
+      transform: scale(0.64);
+    }
+
+    &__input {
+      position: fixed;
+      z-index: 999;
+      top: 50%;
+      left: calc((100vw - 84vw) / 2);
+      transform: translate(0, -50%);
+
+      &.-opened {
+        width: 84vw;
+        height: 6.4vh;
+        box-shadow: 0 0 10px 1000px rgba(0, 0, 0, 0.64);
+        outline-color: $color-pastel-pink;
+        background-color: $color-pastel-pink;
+      }
+    }
+  }
+}

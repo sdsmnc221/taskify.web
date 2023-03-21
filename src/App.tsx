@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Todo } from './components/model';
 import InputField from './components/elements/InputField/InputField';
 import TodosList from './components/elements/TodosList/TodosList';
+import SaveHeader from './components/elements/SaveHeader/SaveHeader';
 import {
   setDoc,
   collection,
@@ -71,7 +72,10 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <h1 className="heading">Taskify</h1>
+      <div className="header">
+        <h1 className="heading">Taskify</h1>
+        <SaveHeader />
+      </div>
       <InputField todo={todo} setTodo={setTodo} handleAddTask={handleAddTask} />
       <TodosList
         todos={todos}
