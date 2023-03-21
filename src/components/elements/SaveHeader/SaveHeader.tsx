@@ -35,7 +35,12 @@ const SaveHeader: React.FC<Props> = ({
         if (todo.id && todo.id.toString()) {
           setDoc(
             doc(firestore, 'tasks', todo.id.toString()),
-            { isDone: todo.isDone, id: todo.id, todo: todo.todo },
+            {
+              isDone: todo.isDone,
+              id: todo.id,
+              todo: todo.todo,
+              ...(todo.note ? { note: todo.note } : {})
+            },
             { merge: true }
           );
         }

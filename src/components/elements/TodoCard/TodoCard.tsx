@@ -30,7 +30,7 @@ const TodoCard: React.FC<Props> = ({
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodoText, setEditTodoText] = useState<string>(todo.todo);
-  const [editTodoNote, setEditTodoNote] = useState<string>('');
+  const [editTodoNote, setEditTodoNote] = useState<string>(todo.note || '');
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -70,7 +70,6 @@ const TodoCard: React.FC<Props> = ({
   };
 
   const handleEdit = async (e: React.FormEvent, id: number) => {
-    console.log('aa');
     e.preventDefault();
     setTodos(
       todos.map((todo) =>
@@ -83,6 +82,7 @@ const TodoCard: React.FC<Props> = ({
           : todo
       )
     );
+
     setEdit(false);
 
     // setDoc(

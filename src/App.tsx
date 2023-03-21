@@ -42,7 +42,8 @@ const App: React.FC = () => {
               .map((task) => ({
                 id: task.id,
                 todo: task.todo,
-                isDone: task.isDone
+                isDone: task.isDone,
+                note: task.note
               }))
           );
           setCompletedTodos(
@@ -51,7 +52,8 @@ const App: React.FC = () => {
               .map((task) => ({
                 id: task.id,
                 todo: task.todo,
-                isDone: task.isDone
+                isDone: task.isDone,
+                note: task.note
               }))
           );
         }
