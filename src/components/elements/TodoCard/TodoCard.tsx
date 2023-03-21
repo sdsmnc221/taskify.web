@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Todo } from '../../model';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { IoSwapHorizontalOutline } from 'react-icons/io5';
-import { Draggable } from 'react-beautiful-dnd';
 import { firestore } from '../../../utils/firebase';
 import { deleteDoc, doc, setDoc } from '@firebase/firestore';
 
@@ -78,49 +77,39 @@ const TodoCard: React.FC<Props> = ({
   }, [edit]);
 
   return (
-    <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided, snapshot) => (
-        <form
-          className={`todo-card ${snapshot.isDragging ? 'dragging' : ''}`}
-          onSubmit={(e) => handleEdit(e, todo.id)}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          {edit ? (
-            <input
-              ref={inputRef}
-              value={editTodoText}
-              onChange={(e) => setEditTodoText(e.target.value)}
-              className="todo-card__text"
-            />
-          ) : todo.isDone ? (
-            <s className="todo-card__text">{todo.todo}</s>
-          ) : (
-            <span className="todo-card__text">{todo.todo}</span>
-          )}
-
-          <div>
-            {!todo.isDone && (
-              <span
-                className="icon"
-                onClick={() => {
-                  if (!edit) setEdit(!edit);
-                }}
-              >
-                <AiFillEdit />
-              </span>
-            )}
-            <span className="icon" onClick={() => handleDelete(todo.id)}>
-              <AiFillDelete />
-            </span>
-            <span className="icon" onClick={() => handleSwap(todo.id)}>
-              <IoSwapHorizontalOutline />
-            </span>
-          </div>
-        </form>
+    <form className="todo-card" onSubmit={(e) => handleEdit(e, todo.id)}>
+      {edit ? (
+        <input
+          ref={inputRef}
+          value={editTodoText}
+          onChange={(e) => setEditTodoText(e.target.value)}
+          className="todo-card__text"
+        />
+      ) : todo.isDone ? (
+        <s className="todo-card__text">{todo.todo}</s>
+      ) : (
+        <span className="todo-card__text">{todo.todo}</span>
       )}
-    </Draggable>
+
+      <div>
+        {!todo.isDone && (
+          <span
+            className="icon"
+            onClick={() => {
+              if (!edit) setEdit(!edit);
+            }}
+          >
+            <AiFillEdit />
+          </span>
+        )}
+        <span className="icon" onClick={() => handleDelete(todo.id)}>
+          <AiFillDelete />
+        </span>
+        <span className="icon" onClick={() => handleSwap(todo.id)}>
+          <IoSwapHorizontalOutline />
+        </span>
+      </div>
+    </form>
   );
 };
 

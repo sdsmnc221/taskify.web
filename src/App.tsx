@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { Todo } from './components/model';
 import InputField from './components/elements/InputField/InputField';
 import TodosList from './components/elements/TodosList/TodosList';
@@ -10,8 +9,7 @@ import {
   DocumentData,
   Firestore,
   getDocs,
-  doc,
-  deleteDoc
+  doc
 } from '@firebase/firestore';
 import { firestore } from './utils/firebase';
 
@@ -71,70 +69,17 @@ const App: React.FC = () => {
     }
   };
 
-  const handleDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-
-    if (!destination) return;
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    let add,
-      active = todos,
-      completed = completedTodos;
-
-    if (source.droppableId === 'todosList') {
-      add = active[source.index];
-      active.splice(source.index, 1);
-    } else {
-      add = completed[source.index];
-      completed.splice(source.index, 1);
-    }
-
-    if (destination.droppableId === 'todosList') {
-      active.splice(destination.index, 0, add);
-      console.log('b');
-    } else {
-      completed.splice(destination.index, 0, add);
-      console.log('a');
-    }
-
-    active = active.map((todo) => ({ ...todo, isDone: false }));
-    completed = completed.map((todo) => ({ ...todo, isDone: true }));
-    setTodos(active);
-    setCompletedTodos(completed);
-
-    const allTodos = [...active, ...completed];
-    allTodos.forEach(async (task) => {
-      // await deleteDoc(doc(firestore, 'tasks', task.id.toString()));
-      setDoc(
-        doc(firestore, 'tasks', task.id.toString()),
-        { isDone: task.isDone, id: task.id, todo: task.todo },
-        { merge: true }
-      );
-    });
-  };
-
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="app">
-        <h1 className="heading">Taskify</h1>
-        <InputField
-          todo={todo}
-          setTodo={setTodo}
-          handleAddTask={handleAddTask}
-        />
-        <TodosList
-          todos={todos}
-          setTodos={setTodos}
-          completedTodos={completedTodos}
-          setCompletedTodos={setCompletedTodos}
-        />
-      </div>
-    </DragDropContext>
+    <div className="app">
+      <h1 className="heading">Taskify</h1>
+      <InputField todo={todo} setTodo={setTodo} handleAddTask={handleAddTask} />
+      <TodosList
+        todos={todos}
+        setTodos={setTodos}
+        completedTodos={completedTodos}
+        setCompletedTodos={setCompletedTodos}
+      />
+    </div>
   );
 };
 
