@@ -12,6 +12,11 @@
     margin-bottom: 0.32rem;
   }
 
+  & > div {
+    position: relative;
+    margin-left: 1.2rem;
+  }
+
   &__inputs {
     flex: 1;
     margin: 0 1rem;
@@ -34,8 +39,6 @@
   &__text,
   &__note {
     flex: 1;
-    margin-left: 1.2rem;
-    position: relative;
 
     &:not(s),
     &:not(span) {
