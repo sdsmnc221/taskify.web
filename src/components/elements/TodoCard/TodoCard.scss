@@ -1,7 +1,7 @@
 .todo-card {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
   padding: 1rem;
@@ -12,17 +12,45 @@
     margin-bottom: 0.32rem;
   }
 
-  &__text {
+  &__inputs {
+    flex: 1;
+    margin: 0 1rem;
+    span {
+      font-size: $ft-s-xsmall;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    input {
+      display: block;
+    }
+  }
+
+  &__text,
+  &__note {
     flex: 1;
     margin-left: 1.2rem;
     position: relative;
 
-    &:focus,
-    &input {
+    &:not(s),
+    &:not(span) {
       outline: none;
       border: none;
       background: none;
-      margin: 0;
+    }
+
+    &.-edit {
+      background-color: transparentize($color-pastel-pink, 0.72);
+      color: $color-text;
+      font-size: $ft-s-xsmall;
+      padding: 0.48rem;
+      margin-bottom: 0.24rem;
+      margin-left: 0.96rem;
+
+      &::placeholder {
+        color: $color-pastel-pink;
+      }
     }
 
     &::after {
@@ -36,5 +64,14 @@
       border-radius: 50%;
       transform: translateY(-50%);
     }
+  }
+
+  &__note {
+    &.-edit {
+      font-size: $ft-s-xxsmall;
+    }
+
+    font-size: $ft-s-xxsmall;
+    color: $color-pastel-pink;
   }
 }

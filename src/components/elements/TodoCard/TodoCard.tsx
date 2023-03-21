@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, Fragment } from 'react';
 import { Todo } from '../../model';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { IoSwapHorizontalOutline } from 'react-icons/io5';
@@ -30,8 +30,12 @@ const TodoCard: React.FC<Props> = ({
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodoText, setEditTodoText] = useState<string>(todo.todo);
+  const [editTodoNote, setEditTodoNote] = useState<string>('');
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputNoteRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSwap = async (id: number) => {
     setTodos(
@@ -66,10 +70,17 @@ const TodoCard: React.FC<Props> = ({
   };
 
   const handleEdit = async (e: React.FormEvent, id: number) => {
+    console.log('aa');
     e.preventDefault();
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, todo: editTodoText } : todo
+        todo.id === id
+          ? {
+              ...todo,
+              todo: editTodoText,
+              ...(editTodoNote ? { note: editTodoNote } : {})
+            }
+          : todo
       )
     );
     setEdit(false);
@@ -86,18 +97,57 @@ const TodoCard: React.FC<Props> = ({
   }, [edit]);
 
   return (
-    <form className="todo-card" onSubmit={(e) => handleEdit(e, todo.id)}>
+    <form
+      className="todo-card"
+      ref={formRef}
+      onSubmit={(e) => handleEdit(e, todo.id)}
+      onClick={(e) => setExpanded(!expanded)}
+    >
       {edit ? (
-        <input
-          ref={inputRef}
-          value={editTodoText}
-          onChange={(e) => setEditTodoText(e.target.value)}
-          className="todo-card__text"
-        />
+        <div className="todo-card__inputs">
+          <span>
+            Title:{' '}
+            <input
+              ref={inputRef}
+              value={editTodoText}
+              placeholder="Task's title"
+              onChange={(e) => setEditTodoText(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleEdit(e, todo.id)}
+              className={`todo-card__text ${edit ? '-edit' : ''}`}
+            />
+          </span>
+          <span>
+            Note:{' '}
+            <input
+              ref={inputNoteRef}
+              value={editTodoNote}
+              placeholder="Task's note"
+              onChange={(e) => setEditTodoNote(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleEdit(e, todo.id)}
+              className={`todo-card__note ${edit ? '-edit' : ''}`}
+            />
+          </span>
+        </div>
       ) : todo.isDone ? (
-        <s className="todo-card__text">{todo.todo}</s>
+        <div>
+          <s className="todo-card__text">{todo.todo}</s>
+          {expanded && todo.note && (
+            <Fragment>
+              <br />
+              <s className="todo-card__note">{todo.note}</s>
+            </Fragment>
+          )}
+        </div>
       ) : (
-        <span className="todo-card__text">{todo.todo}</span>
+        <div>
+          <span className="todo-card__text">{todo.todo}</span>
+          {expanded && todo.note && (
+            <Fragment>
+              <br />
+              <span className="todo-card__note">{todo.note}</span>
+            </Fragment>
+          )}
+        </div>
       )}
 
       <div>
