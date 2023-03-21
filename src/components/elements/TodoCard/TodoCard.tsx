@@ -13,6 +13,8 @@ interface Props {
   otherTodos: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   setOtherTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todosDeleted: Todo[];
+  setTodosDeleted: React.Dispatch<React.SetStateAction<Todo[]>>;
   index: number;
 }
 
@@ -22,6 +24,8 @@ const TodoCard: React.FC<Props> = ({
   otherTodos,
   setTodos,
   setOtherTodos,
+  todosDeleted,
+  setTodosDeleted,
   index
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
@@ -42,18 +46,21 @@ const TodoCard: React.FC<Props> = ({
       const newTodo: Todo = { ...todo, id: Date.now(), isDone: !todo.isDone };
       setOtherTodos([...otherTodos, newTodo]);
 
-      await deleteDoc(doc(firestore, 'tasks', id.toString()));
-      setDoc(
-        doc(firestore, 'tasks', newTodo.id.toString()),
-        { isDone: newTodo.isDone, id: newTodo.id, todo: newTodo.todo },
-        { merge: true }
-      );
+      // await deleteDoc(doc(firestore, 'tasks', id.toString()));
+      // setDoc(
+      //   doc(firestore, 'tasks', newTodo.id.toString()),
+      //   { isDone: newTodo.isDone, id: newTodo.id, todo: newTodo.todo },
+      //   { merge: true }
+      // );
     }
   };
 
   const handleDelete = async (id: number) => {
-    await deleteDoc(doc(firestore, 'tasks', id.toString()));
+    // await deleteDoc(doc(firestore, 'tasks', id.toString()));
     setTodos(todos.filter((todo) => todo.id !== id));
+
+    const deletedTodo: Todo | undefined = todos.find((todo) => todo.id === id);
+    if (deletedTodo) setTodosDeleted([...todosDeleted, deletedTodo]);
   };
 
   const handleEdit = async (e: React.FormEvent, id: number) => {
@@ -65,11 +72,11 @@ const TodoCard: React.FC<Props> = ({
     );
     setEdit(false);
 
-    setDoc(
-      doc(firestore, 'tasks', id.toString()),
-      { todo: editTodoText },
-      { merge: true }
-    );
+    // setDoc(
+    //   doc(firestore, 'tasks', id.toString()),
+    //   { todo: editTodoText },
+    //   { merge: true }
+    // );
   };
 
   useEffect(() => {

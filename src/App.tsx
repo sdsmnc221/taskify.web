@@ -17,6 +17,7 @@ import { firestore } from './utils/firebase';
 import './App.scss';
 
 const App: React.FC = () => {
+  const [todosDeleted, setTodosDeleted] = useState<Todo[]>([]);
   const [todo, setTodo] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
@@ -66,7 +67,7 @@ const App: React.FC = () => {
       setTodos([...todos, newTodo]);
       setTodo('');
 
-      await setDoc(doc(firestore, 'tasks', newTodo.id.toString()), newTodo);
+      // await setDoc(doc(firestore, 'tasks', newTodo.id.toString()), newTodo);
     }
   };
 
@@ -74,7 +75,11 @@ const App: React.FC = () => {
     <div className="app">
       <div className="header">
         <h1 className="heading">Taskify</h1>
-        <SaveHeader />
+        <SaveHeader
+          todos={todos}
+          completedTodos={completedTodos}
+          todosDeleted={todosDeleted}
+        />
       </div>
       <InputField todo={todo} setTodo={setTodo} handleAddTask={handleAddTask} />
       <TodosList
@@ -82,6 +87,8 @@ const App: React.FC = () => {
         setTodos={setTodos}
         completedTodos={completedTodos}
         setCompletedTodos={setCompletedTodos}
+        todosDeleted={todosDeleted}
+        setTodosDeleted={setTodosDeleted}
       />
     </div>
   );

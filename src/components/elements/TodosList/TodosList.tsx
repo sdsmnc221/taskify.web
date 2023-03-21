@@ -8,12 +8,16 @@ interface Props {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   completedTodos: Todo[];
   setCompletedTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todosDeleted: Todo[];
+  setTodosDeleted: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 const TodosList: React.FC<Props> = ({
   todos,
   setTodos,
   completedTodos,
-  setCompletedTodos
+  setCompletedTodos,
+  todosDeleted,
+  setTodosDeleted
 }) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>): void => {
     const target = e.target as HTMLDivElement;
@@ -33,6 +37,8 @@ const TodosList: React.FC<Props> = ({
                 setTodos={setTodos}
                 otherTodos={completedTodos}
                 setOtherTodos={setCompletedTodos}
+                todosDeleted={todosDeleted}
+                setTodosDeleted={setTodosDeleted}
                 index={index}
                 key={task.id}
               />
@@ -63,6 +69,8 @@ const TodosList: React.FC<Props> = ({
                 setTodos={setCompletedTodos}
                 otherTodos={todos}
                 setOtherTodos={setTodos}
+                todosDeleted={todosDeleted}
+                setTodosDeleted={setTodosDeleted}
                 index={index}
                 key={task.id}
               />

@@ -1,8 +1,21 @@
+import { setDoc, deleteDoc, doc } from '@firebase/firestore';
 import React, { useRef, useState, useEffect } from 'react';
+import { Todo } from '../../model';
+import { firestore } from '../../../utils/firebase';
 import './SaveHeader.scss';
 
+interface Props {
+  todos: Todo[];
+  completedTodos: Todo[];
+  todosDeleted: Todo[];
+}
+
 // const SaveHeader = ({ todo, setTodo }: Props) => {
-const SaveHeader: React.FC = () => {
+const SaveHeader: React.FC<Props> = ({
+  todos,
+  completedTodos,
+  todosDeleted
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [openPasswordInput, setOpenPasswordInput] = useState<boolean>(false);
@@ -12,11 +25,25 @@ const SaveHeader: React.FC = () => {
     if (openPasswordInput) inputRef.current?.focus();
   }, [openPasswordInput]);
 
-  const onSubmit = (e?: React.FormEvent) => {
+  const onSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (passwordValue === import.meta.env.VITE_SAVE_PASSWORD) {
-      // Todo: save tasks to firecloud
+      // save tasks to firecloud if password is correct
       setIsPasswordCorrect(true);
+
+      for (const todo of [...todos, ...completedTodos]) {
+        if (todo.id && todo.id.toString()) {
+          setDoc(
+            doc(firestore, 'tasks', todo.id.toString()),
+            { isDone: todo.isDone, id: todo.id, todo: todo.todo },
+            { merge: true }
+          );
+        }
+      }
+
+      for (const todo of todosDeleted) {
+        await deleteDoc(doc(firestore, 'tasks', todo.id.toString()));
+      }
 
       inputRef.current?.blur();
     } else {
