@@ -20,6 +20,13 @@
   &__inputs {
     flex: 1;
     margin: 0 1rem;
+
+    @media #{$mq-mobile} {
+      &:is(div) {
+        margin-left: 0.48rem;
+      }
+    }
+
     span {
       font-size: $ft-s-xsmall;
       display: flex;
