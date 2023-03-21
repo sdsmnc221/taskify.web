@@ -16,7 +16,7 @@ body {
       width: 100%;
       justify-content: space-between;
       align-items: center;
-      padding: 0 4vw;
+      padding: 0 4vw 0 2vw;
 
       .heading {
         font-family: $pacifico;
@@ -36,6 +36,10 @@ body {
       padding: 0;
       margin: 0;
       justify-content: center;
+
+      .header {
+        padding: 0 4vw;
+      }
 
       .heading {
         margin-top: 0;
