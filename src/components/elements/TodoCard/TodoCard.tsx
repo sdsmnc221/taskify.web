@@ -150,24 +150,26 @@ const TodoCard: React.FC<Props> = ({
         </div>
       )}
 
-      <div>
-        {!todo.isDone && (
-          <span
-            className="icon"
-            onClick={() => {
-              if (!edit) setEdit(!edit);
-            }}
-          >
-            <AiFillEdit />
+      {!edit && (
+        <div>
+          {!todo.isDone && (
+            <span
+              className="icon"
+              onClick={() => {
+                if (!edit) setEdit(!edit);
+              }}
+            >
+              <AiFillEdit />
+            </span>
+          )}
+          <span className="icon" onClick={() => handleDelete(todo.id)}>
+            <AiFillDelete />
           </span>
-        )}
-        <span className="icon" onClick={() => handleDelete(todo.id)}>
-          <AiFillDelete />
-        </span>
-        <span className="icon" onClick={() => handleSwap(todo.id)}>
-          <IoSwapHorizontalOutline />
-        </span>
-      </div>
+          <span className="icon" onClick={() => handleSwap(todo.id)}>
+            <IoSwapHorizontalOutline />
+          </span>
+        </div>
+      )}
     </form>
   );
 };
