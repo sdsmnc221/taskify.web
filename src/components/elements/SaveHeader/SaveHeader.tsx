@@ -25,6 +25,10 @@ const SaveHeader: React.FC<Props> = ({
     if (openPasswordInput) inputRef.current?.focus();
   }, [openPasswordInput]);
 
+  useEffect(() => {
+    if (isPasswordCorrect) setTimeout(() => setIsPasswordCorrect(false), 2400);
+  }, [isPasswordCorrect]);
+
   const onSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (passwordValue === import.meta.env.VITE_SAVE_PASSWORD) {
@@ -81,7 +85,11 @@ const SaveHeader: React.FC<Props> = ({
         className={`save-header__input ${openPasswordInput ? '-opened' : ''}`}
       />
       <button type="submit" className="save-header__save" onClick={onClickSave}>
-        Save
+        {!openPasswordInput
+          ? isPasswordCorrect
+            ? 'Saved'
+            : 'Not Saved'
+          : 'Save'}
       </button>
     </form>
   );
