@@ -38,6 +38,11 @@ const TodoCard: React.FC<Props> = ({
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSwap = async (id: number) => {
+    const deletedTodo: Todo | undefined = [...todos, ...otherTodos].find(
+      (todo) => todo.id === id
+    );
+    if (deletedTodo) setTodosDeleted([...todosDeleted, deletedTodo]);
+
     setTodos(
       // todos.map((todo) =>
       //   todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
