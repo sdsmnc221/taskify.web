@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { Todo } from './components/model';
 import InputField from './components/elements/InputField/InputField';
 import TodosList from './components/elements/TodosList/TodosList';
@@ -15,12 +15,14 @@ import {
 import { firestore } from './utils/firebase';
 
 import './App.scss';
+import Loader from './components/elements/Loader/Loader';
 
 const App: React.FC = () => {
   const [todosDeleted, setTodosDeleted] = useState<Todo[]>([]);
   const [todo, setTodo] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTasks = async (db: Firestore) => {
@@ -56,6 +58,7 @@ const App: React.FC = () => {
                 note: task.note
               }))
           );
+          setTimeout(() => setLoading(false), 1600);
         }
       })
       .catch((err) => console.log(err));
@@ -75,23 +78,32 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <div className="header">
-        <h1 className="heading">Taskify</h1>
-        <SaveHeader
-          todos={todos}
-          completedTodos={completedTodos}
-          todosDeleted={todosDeleted}
-        />
-      </div>
-      <InputField todo={todo} setTodo={setTodo} handleAddTask={handleAddTask} />
-      <TodosList
-        todos={todos}
-        setTodos={setTodos}
-        completedTodos={completedTodos}
-        setCompletedTodos={setCompletedTodos}
-        todosDeleted={todosDeleted}
-        setTodosDeleted={setTodosDeleted}
-      />
+      {!loading && (
+        <Fragment>
+          <div className="header">
+            <h1 className="heading">Taskify</h1>
+            <SaveHeader
+              todos={todos}
+              completedTodos={completedTodos}
+              todosDeleted={todosDeleted}
+            />
+          </div>
+          <InputField
+            todo={todo}
+            setTodo={setTodo}
+            handleAddTask={handleAddTask}
+          />
+          <TodosList
+            todos={todos}
+            setTodos={setTodos}
+            completedTodos={completedTodos}
+            setCompletedTodos={setCompletedTodos}
+            todosDeleted={todosDeleted}
+            setTodosDeleted={setTodosDeleted}
+          />
+        </Fragment>
+      )}
+      <Loader loading={loading} />
     </div>
   );
 };
